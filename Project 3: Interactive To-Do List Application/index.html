@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <h1 class="app-title">To-Do App</h1>
+
+        <div class="progress-section">
+            <p>Keep it Up!</p>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            <span class="task-count" id="task-count">3 / 4</span>
+        </div>
+
+        <div class="input-section">
+            <input type="text" id="new-task-input" placeholder="Add a new task...">
+            <button id="add-task-btn">+</button>
+        </div>
+
+        <ul class="task-list" id="task-list">
+            </ul>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

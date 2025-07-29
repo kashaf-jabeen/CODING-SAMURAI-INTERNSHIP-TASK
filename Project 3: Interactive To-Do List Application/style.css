@@ -1,0 +1,384 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #1a1a1a; /* Very dark grey, almost black for the body */
+    color: #000; /* Default text color changed to black */
+    overflow: hidden;
+}
+
+.app-container {
+    background: rgba(255, 255, 255, 0.95); /* Near-white background for the main box */
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); /* Stronger shadow for contrast */
+    backdrop-filter: blur(5px); /* Less blur since background is dark, box is light */
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.8); /* Solid white border for crispness */
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle background glow/overlay for aesthetic - removed/adjusted for black/white */
+/* We don't need a glow if the main background is black and box is white,
+   as it won't be visible or might look out of place. */
+.app-container::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    left: -50px;
+    right: -50px;
+    bottom: -50px;
+    background: none; /* No glow needed for this theme */
+    z-index: -1;
+    filter: none;
+}
+
+
+.app-title {
+    font-size: 2.2em;
+    margin-bottom: 25px;
+    color: #222; /* Darker black for the title */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow for definition */
+    font-weight: 700; /* Bolder title */
+}
+
+.progress-section {
+    background: #f0f0f0; /* Light grey for the progress section background */
+    border-radius: 15px;
+    padding: 15px 20px;
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px; /* Increased space between text and progress bar */
+    position: relative;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.1); /* Subtle inner shadow */
+}
+
+.progress-section p {
+    margin: 0;
+    font-size: 1.2em;
+    color: #333; /* Dark grey for "Keep it Up!" text */
+    font-weight: 600; /* Bolder text */
+    width: 100%;
+    text-align: left;
+}
+
+.progress-bar-container {
+    width: calc(100% - 70px);
+    height: 10px;
+    background: #e0e0e0; /* Lighter grey for empty progress bar */
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    margin-top: 0; /* Reset margin-top, gap handles spacing now */
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(to right, #4CAF50, #8BC34A); /* A nice green gradient for progress */
+    border-radius: 5px;
+    transition: width 0.5s ease-out;
+}
+
+.task-count {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #4CAF50; /* Matches progress bar start color */
+    background: #fff;
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    z-index: 10;
+    border: 1px solid #ddd; /* Subtle border for the circle */
+}
+
+.input-section {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+#new-task-input {
+    flex-grow: 1;
+    padding: 12px 15px;
+    border: 1px solid #ccc; /* Light grey border */
+    border-radius: 10px;
+    background: #fdfdfd; /* Off-white for input */
+    color: #333; /* Dark text for input */
+    font-size: 1em;
+    outline: none;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#new-task-input::placeholder {
+    color: #888; /* Grey placeholder text */
+}
+
+#new-task-input:focus {
+    border-color: #4CAF50; /* Green border on focus */
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.2);
+}
+
+#add-task-btn {
+    background: #4CAF50; /* Solid green for add button */
+    border: none;
+    border-radius: 10px;
+    padding: 12px 20px;
+    color: #fff; /* White plus sign */
+    font-size: 1.6em;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+#add-task-btn:hover {
+    background: #45a049; /* Slightly darker green on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.task-item {
+    background: #fdfdfd; /* Off-white for task items */
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Subtle shadow for definition */
+    position: relative;
+    border: 1px solid #eee; /* Light border */
+}
+
+.task-item:last-child {
+    margin-bottom: 0;
+}
+
+.task-item:hover {
+    background: #f5f5f5; /* Slightly darker off-white on hover */
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25); /* More pronounced shadow on hover */
+}
+
+.task-item input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 28px;
+    height: 28px;
+    border: 2px solid #666; /* Darker border for unchecked */
+    border-radius: 50%;
+    background-color: transparent;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.task-item input[type="checkbox"]:checked {
+    background-color: #4CAF50; /* Green when checked */
+    border-color: #4CAF50;
+    transform: scale(1.1);
+}
+
+.task-item input[type="checkbox"]:checked::after {
+    content: '✓';
+    color: #fff; /* White checkmark */
+    font-size: 1.4em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.task-item label {
+    flex-grow: 1;
+    text-align: left;
+    color: #333; /* Dark grey for task text */
+    font-size: 1.15em;
+    font-weight: 500;
+    text-shadow: none; /* No text shadow for a clean look */
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    user-select: none;
+}
+
+.task-item.completed label {
+    text-decoration: line-through;
+    color: #888; /* Lighter grey for completed tasks */
+}
+
+/* Styling for the edit input field when a task is being edited */
+.task-item .edit-input {
+    flex-grow: 1;
+    padding: 8px 10px;
+    border: 1px solid #999; /* Grey border */
+    border-radius: 8px;
+    background: #fff; /* White background */
+    color: #333; /* Black text */
+    font-size: 1.15em;
+    outline: none;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+    margin-right: 15px;
+    box-sizing: border-box;
+}
+
+.task-actions {
+    display: flex;
+    gap: 10px;
+    margin-left: 15px;
+    flex-shrink: 0;
+}
+
+.task-actions button {
+    background: #e0e0e0; /* Light grey for action buttons */
+    border: none;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    color: #555; /* Dark grey icons */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.task-actions .edit-btn:hover {
+    background: #d0d0d0; /* Slightly darker grey on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.task-actions .delete-btn {
+    background: #f44336; /* Classic red for delete */
+    color: #fff; /* White delete icon */
+}
+
+.task-actions .delete-btn:hover {
+    background: #d32f2f; /* Darker red on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Animation for adding/removing tasks */
+.task-item.fade-out {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.9);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.task-item.fade-in {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+    animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Responsive Adjustments (adjusted for new color scheme where relevant) */
+@media (max-width: 480px) {
+    .app-container {
+        padding: 20px;
+        border-radius: 15px;
+    }
+
+    .app-title {
+        font-size: 2em;
+        margin-bottom: 20px;
+    }
+
+    .progress-section {
+        align-items: center;
+        padding: 10px 15px;
+        gap: 10px; /* Adjusted gap for smaller screens */
+    }
+
+    .progress-section p {
+        text-align: center;
+    }
+
+    .progress-bar-container {
+        width: 100%;
+        margin-top: 5px;
+    }
+
+    .task-count {
+        position: static;
+        transform: none;
+        margin-top: 10px;
+        align-self: center;
+    }
+
+    .input-section {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    #add-task-btn {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .task-item {
+        flex-wrap: wrap;
+        padding: 10px 12px;
+    }
+
+    .task-item input[type="checkbox"] {
+        margin-right: 10px;
+    }
+
+    .task-item label {
+        flex-basis: calc(100% - 48px);
+        margin-right: 0;
+        font-size: 1.05em;
+    }
+
+    .task-actions {
+        width: 100%;
+        justify-content: flex-end;
+        margin-left: 0;
+        margin-top: 10px;
+        gap: 8px;
+    }
+
+    .task-actions button {
+        padding: 8px 10px;
+        font-size: 1em;
+    }
+}
